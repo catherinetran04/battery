@@ -1,4 +1,4 @@
-# CSCI 2021 Project 2 Makefile
+# Battery Simulation Makefile
 
 AN = p2
 CLASS = 2021
@@ -12,7 +12,6 @@ CWD    = $(shell pwd | sed 's/.*\///g')
 PROGRAMS = \
 	batt_main \
 	test_batt_update \
-	puzzlebox   \
 
 
 all : $(PROGRAMS)
@@ -27,12 +26,11 @@ help :
 	@echo '  > make zip                      # create a zip file for submission'
 	@echo '  > make prob1                    # built targets associated with problem 1'
 	@echo '  > make prob1 testnum=5          # run problem 1 test #5 only'
-	@echo '  > make test-prob2               # run test for problem 2'
+	@echo '  > make test-prob1               # run test for problem 1'
 	@echo '  > make test                     # run all tests'
 
 
 ############################################################
-# 'make zip' to create p2-code.zip for submission
 zip : clean clean-tests
 	rm -f $(AN)-code.zip
 	cd .. && zip "$(CWD)/$(AN)-code.zip" -r "$(CWD)"
@@ -63,14 +61,6 @@ test_batt_update.o : test_batt_update.c
 	$(CC) -c $<
 
 ################################################################################
-# debugging problem
-prob2 : puzzlebox
-
-puzzlebox.o : puzzlebox.c
-	$(CC) -c $<
-
-puzzlebox : puzzlebox.o
-	$(CC) -o $@ $^
 
 ################################################################################
 # Testing Targets
@@ -81,9 +71,6 @@ test: test-prob1 test-prob2
 
 test-prob1: test-setup prob1 test_batt_update
 	./testy test_batt_update.org $(testnum)
-
-test-prob2 : puzzlebox
-	./puzzlebox input.txt
 
 clean-tests : 
 	rm -rf test-results/ 
